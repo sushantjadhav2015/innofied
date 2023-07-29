@@ -1,0 +1,80 @@
+<!-- your-component.component.html -->
+
+<form [formGroup]="searchTaxiForm" (ngSubmit)="onSubmit()">
+    <label>
+      <input type="radio" formControlName="selection" value="Airport Transfer" (change)="onRadioSelect()"> Airport
+      Transfer
+    </label>
+    <label>
+      <input type="radio" formControlName="selection" value="Hotel Transfer" (change)="onRadioSelect()"> Hotel Transfer
+    </label>
+    <label>
+      <input type="radio" formControlName="selection" value="Direct Transfer" (change)="onRadioSelect()"> Direct Transfer
+    </label>
+  
+    <div *ngIf="showAirportFields">
+      <!-- Show these fields when Airport Transfer is selected -->
+      <label for="to_station">To Station:</label>
+      <input type="text" formControlName="to_station" id="to_station">
+  
+      <label for="from_station">From Station:</label>
+      <input type="text" formControlName="from_station" id="from_station">
+  
+      <label for="from_date">From Date:</label>
+      <input type="text" formControlName="from_date" id="from_date">
+  
+      <label for="from_time">From Time:</label>
+      <input type="text" formControlName="from_time" id="from_time">
+  
+      <label for="arriveFrom">Arrive From:</label>
+      <input type="text" formControlName="arriveFrom" id="arriveFrom">
+  
+      <label for="flightNo">Flight No:</label>
+      <input type="text" formControlName="flightNo" id="flightNo">
+  
+      <label for="datetime">Datetime:</label>
+      <input type="text" formControlName="datetime" id="datetime">
+  
+      <label for="arrivalDate">Arrival Date:</label>
+      <input type="text" formControlName="arrivalDate" id="arrivalDate">
+  
+      <label for="arrivalTime">Arrival Time:</label>
+      <input type="text" formControlName="arrivalTime" id="arrivalTime">
+  
+    </div>
+  
+    <div *ngIf="!showAirportFields">
+      <!-- Show these fields when Direct Transfer is selected -->
+      <label for="select_pickupLocation">From Loaction:</label>
+      <input type="text" formControlName="select_pickupLocation" id="select_pickupLocation">
+  
+      <label for="select_dropLocation">To drop</label>
+      <input type="text" formControlName="select_dropLocation" id="select_dropLocation">
+  
+  
+      <label for="from_date">From Date:</label>
+      <input type="text" formControlName="from_date" id="from_date">
+  
+      <label for="from_time">From Time:</label>
+      <input type="text" formControlName="from_time" id="from_time">
+  
+    </div>
+  
+    <div>
+          <label for="noOfBaggage">Number of Baggage:</label>
+      <input type="text" formControlName="noOfBaggage" id="noOfBaggage">
+  
+      <label for="adult">Adult:</label>
+      <input type="text" formControlName="adult" id="adult">
+  
+      <label for="children">Children:</label>
+      <input type="text" formControlName="children" id="children">
+  
+      <label for="infants">Infants:</label>
+      <input type="text" formControlName="infants" id="infants">
+  
+    </div>
+  
+    <button type="submit" [disabled]="!searchTaxiForm.valid">Submit</button>
+  </form>
+  
