@@ -9,6 +9,14 @@ const routes: Routes = [
         (m) => m.MultiStepFormModule
       ),
   },
+  {
+    path: 'home',
+    loadChildren: () =>
+      import('./modules/home/home.module').then(
+        (m) => m.HomeModule
+      ),
+  },
+
 ];
 
 @NgModule({

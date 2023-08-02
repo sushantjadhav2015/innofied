@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './modules/home/home.component';
+import { HomeModule } from './modules/home/home.module';
 import { MultiStepFormComponent } from './modules/multi-step-form/multi-step-form.component';
 import { MultiStepFormModule } from './modules/multi-step-form/multi-step-form.module';
 
@@ -15,7 +16,8 @@ import { MultiStepFormModule } from './modules/multi-step-form/multi-step-form.m
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MultiStepFormModule
+    MultiStepFormModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

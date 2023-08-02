@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-multi-step-form',
@@ -10,7 +11,7 @@ export class MultiStepFormComponent {
   searchTaxiForm!: FormGroup;
   showAirportFields: boolean = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private router:Router) {}
 
   ngOnInit() {
     this.searchTaxiForm = this.formBuilder.group({
@@ -32,6 +33,10 @@ export class MultiStepFormComponent {
       infants: ['0', Validators.required],
     });
 
+    // Load form data from LocalStorage (if available)
+    const formData = JSON.parse(localStorage.getItem('searchTaxiFormData') || '{}');
+    this.searchTaxiForm.patchValue(formData);
+
     this.searchTaxiForm.get('selection')?.valueChanges.subscribe((value) => {
       if (value === 'Direct Transfer') {
         this.showAirportFields = false;
@@ -42,12 +47,8 @@ export class MultiStepFormComponent {
         this.searchTaxiForm.get('arrivalTime')?.clearValidators();
         this.searchTaxiForm.get('to_station')?.clearValidators();
         this.searchTaxiForm.get('from_station')?.clearValidators();
-        this.searchTaxiForm
-          .get('select_pickupLocation')
-          ?.setValidators([Validators.required]);
-        this.searchTaxiForm
-          .get('select_dropLocation')
-          ?.setValidators([Validators.required]);
+        this.searchTaxiForm.get('select_pickupLocation')?.setValidators([Validators.required]);
+        this.searchTaxiForm.get('select_dropLocation')?.setValidators([Validators.required]);
       } else {
         this.showAirportFields = true;
         this.searchTaxiForm
@@ -93,6 +94,8 @@ export class MultiStepFormComponent {
 
   onSubmit() {
     console.log('Form Values:', this.searchTaxiForm.value);
+    localStorage.setItem('searchTaxiFormData', JSON.stringify(this.searchTaxiForm.value));
+    this.router.navigate(['/home'])
   }
 
   onRadioSelect() {
