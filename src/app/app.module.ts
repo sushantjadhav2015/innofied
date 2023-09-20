@@ -4,22 +4,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './modules/home/home.component';
-import { HomeModule } from './modules/home/home.module';
-import { MultiStepFormComponent } from './modules/multi-step-form/multi-step-form.component';
-import { MultiStepFormModule } from './modules/multi-step-form/multi-step-form.module';
+
+// ngxs
+import { NgxsModule } from '@ngxs/store';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { HttpClientModule } from '@angular/common/http';
+import { EmployeeDetailsComponent } from './modules/employee-details/employee-details.component';
+import { EmployeeState } from './store/state/employee.state';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MultiStepFormModule,
-    HomeModule
+    HttpClientModule,
+    // MultiStepFormModule,
+    // HomeModule,
+    // OtherModule,
+    NgxsModule.forRoot([EmployeeState]),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

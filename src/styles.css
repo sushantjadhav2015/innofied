@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+
+/* :root {
+    --form-background-color: gray;
+    --label-color: blue;
+    --button-color: green;
+  }
+
+hex_colors = ['#FF5733 (orange)', '#6A5ACD(voilet)', '#00FF00(green)', '#FFD700(yellow)', '#8B4513(brown)', '#FF1493(pink)'] */
+
+/* styles.css */
+
+/* Apply styles to the form itself */
+form {
+    background-color: var(--form-background-color, gray); /* Use the CSS variable with a fallback */
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  /* Apply styles to the label elements */
+  label {
+    display: block;
+    font-weight: bold;
+    color: var(--label-color,blue); /* Use the CSS variable with a fallback */
+  }
+  
+  /* Apply styles to the input elements */
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid, blue;
+    border-radius: 5px;
+  }
+  
+  /* Apply styles to the radio buttons */
+  input[type="radio"] {
+    margin-right: 6px;
+  }
+  
+  /* Apply styles to the submit button */
+  button[type="submit"] {
+    padding: 10px 20px;
+    background-color: var(--button-color,); /* Use the CSS variable with a fallback */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

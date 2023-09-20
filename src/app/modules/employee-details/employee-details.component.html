@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row col-md-6">
+    <input type="text" [(ngModel)]="searchTerm" (keyup)="search()" placeholder="Search by title and Id" />
+  </div>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let card of (searchTerm ? filteredCards : employee)">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{card.id}}) {{ card.title }}</h5>
+          <p class="card-text">{{ card.body }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- let card of employee$ | async -->

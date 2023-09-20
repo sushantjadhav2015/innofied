@@ -1,0 +1,19 @@
+<div class="container mt-5 text-center">
+  <div class="col-md-12">
+    <input type="file" (change)="onFileChange($event)" />
+  </div>
+
+  <div class="col-md-8" *ngIf="showCropper">
+    <!-- Custom buttons within the cropping area -->
+    <image-cropper [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" [aspectRatio]="1/1"
+      [resizeToWidth]="200" format="png" (imageCropped)="cropImg($event)" (imageLoaded)="imgLoad()"
+      (cropperReady)="initCropper()" (loadImageFailed)="imgFailed()">
+    </image-cropper>
+    <button class="btn btn-primary mt-2" (click)="recrop()">Crop</button>
+  </div>
+
+  <div class="col-md-4">
+    <h6>Image Preview</h6>
+    <img [src]="cropImgPreview" style="border:5px #000; border-radius: 50%;" />
+  </div>
+</div>

@@ -1,6 +1,4 @@
-<!-- your-component.component.html -->
-
-<form [formGroup]="searchTaxiForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="searchTaxiForm" (ngSubmit)="onSubmit()">
     <label>
       <input type="radio" formControlName="selection" value="Airport Transfer" (change)="onRadioSelect()"> Airport
       Transfer
@@ -13,7 +11,6 @@
     </label>
   
     <div *ngIf="showAirportFields">
-      <!-- Show these fields when Airport Transfer is selected -->
       <label for="to_station">To Station:</label>
       <input type="text" formControlName="to_station" id="to_station">
   
@@ -44,7 +41,6 @@
     </div>
   
     <div *ngIf="!showAirportFields">
-      <!-- Show these fields when Direct Transfer is selected -->
       <label for="select_pickupLocation">From Loaction:</label>
       <input type="text" formControlName="select_pickupLocation" id="select_pickupLocation">
   
@@ -77,4 +73,69 @@
   
     <button type="submit" [disabled]="!searchTaxiForm.valid">Submit</button>
   </form>
+   -->
+
+   <!-- your-component.component.html -->
+<form [formGroup]="searchTaxiForm" (ngSubmit)="onSubmit()" class="mt-3">
+  <label class="d-block">Select Transfer Type:</label>
+  <div class="form-group">
+    <div class="form-check form-check-inline" *ngFor="let transferType of ['Airport Transfer', 'Hotel Transfer', 'Direct Transfer']">
+      <input class="form-check-input" type="radio" formControlName="selection" [value]="transferType" (change)="onRadioSelect()">
+      <label class="form-check-label">{{ transferType }}</label>
+    </div>
+  </div>
   
+  <div *ngIf="showAirportFields" class="form-row">
+    <!-- Show these fields when Airport Transfer is selected -->
+    <div class="form-group col-md-4">
+      <label for="to_station">To Station:</label>
+      <input type="text" formControlName="to_station" class="form-control" id="to_station">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="from_station">From Station:</label>
+      <input type="text" formControlName="from_station" class="form-control" id="from_station">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="from_date">From Date:</label>
+      <input type="text" formControlName="from_date" class="form-control" id="from_date">
+    </div>
+    <!-- ... (similarly, add other fields) ... -->
+  </div>
+  
+  <div *ngIf="!showAirportFields" class="form-row">
+    <!-- Show these fields when Direct Transfer is selected -->
+    <div class="form-group col-md-4">
+      <label for="select_pickupLocation">From Location:</label>
+      <input type="text" formControlName="select_pickupLocation" class="form-control" id="select_pickupLocation">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="select_dropLocation">To Drop:</label>
+      <input type="text" formControlName="select_dropLocation" class="form-control" id="select_dropLocation">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="from_date">From Date:</label>
+      <input type="text" formControlName="from_date" class="form-control" id="from_date">
+    </div>
+    <!-- ... (similarly, add other fields) ... -->
+  </div>
+  
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="noOfBaggage">Number of Baggage:</label>
+      <input type="text" formControlName="noOfBaggage" class="form-control" id="noOfBaggage">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="adult">Adult:</label>
+      <input type="text" formControlName="adult" class="form-control" id="adult">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="children">Children:</label>
+      <input type="text" formControlName="children" class="form-control" id="children">
+    </div>
+    <!-- ... (similarly, add other fields) ... -->
+  </div>
+  
+  <div class="form-group">
+    <button type="submit" [disabled]="!searchTaxiForm.valid" class="btn btn-warning">Submit</button>
+  </div>
+</form>

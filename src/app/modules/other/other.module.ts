@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { MultiStepFormComponent } from './multi-step-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OtherComponent } from './other.component';
 
-const routes: Routes = [{ path: '', component: MultiStepFormComponent }];
+const routes: Routes = [{ path: '', component: OtherComponent }];
 
 @NgModule({
-  declarations: [MultiStepFormComponent],
+  declarations: [OtherComponent],
   imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes)],
 })
-export class MultiStepFormModule {
+export class OtherModule {
   constructor(){
-    console.log('MULTI DTEP FORM COMPONENT IS INITIALIZE'); 
+    console.log('OTHER COMPONENT IS INITIALIZE'); 
   }
 }

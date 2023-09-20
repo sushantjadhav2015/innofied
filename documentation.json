@@ -1,0 +1,2433 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "Employee",
+            "id": "interface-Employee-207f98364eb8873dab122cbdd28caf4ce2dc5a90179d8fbf000fcaf9f2927135037f8af8ba7ea0b4d6121bbeebd671271bb2598fc925d45fc6cfd6e11e325078",
+            "file": "src/app/modules/employee-details/employee.model.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface  Employee {\r\n    id: number;\r\n    title: string;\r\n    body: string;\r\n    userId:number\r\n  }\r\n  ",
+            "properties": [
+                {
+                    "name": "body",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4
+                },
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                },
+                {
+                    "name": "title",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 3
+                },
+                {
+                    "name": "userId",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 5
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 168,
+            "methods": []
+        },
+        {
+            "name": "EmployeeStateModel",
+            "id": "interface-EmployeeStateModel-9ab98e86a1ce3c79918fc6175fec2c69b35d81b68c815643932f214d7ad48a8d5302e9c8dbf103203dbfc146d1cef8317b66c47005b697e5653fe075e0240ea9",
+            "file": "src/app/store/state/employee.state.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { SelectorContext } from '@angular/compiler';\r\nimport { Injectable } from '@angular/core';\r\nimport { Action, Selector, State, StateContext } from '@ngxs/store';\r\nimport { tap } from 'rxjs';\r\nimport { Employee } from 'src/app/modules/employee-details/employee.model';\r\nimport { empolyeeService } from 'src/app/service/employee.service';\r\nimport { GetEmployee, SearchEmployee } from '../action/employee.action';\r\n\r\nexport interface EmployeeStateModel {\r\n  employees: Employee[];\r\n  employeesLoaded: boolean;\r\n  searchEmployee: Employee | null;\r\n}\r\n\r\n@State<EmployeeStateModel>({\r\n  name: 'employees',\r\n  defaults: {\r\n    employees: [],\r\n    employeesLoaded: false,\r\n    searchEmployee: null,\r\n  },\r\n})\r\n@Injectable()\r\nexport class EmployeeState {\r\n  constructor(private empoloyeeService: empolyeeService) {}\r\n\r\n  // todo --selector has logic to get state data\r\n  // todo -- Get employee list from state\r\n  @Selector()\r\n  static getEmployeeList(state: EmployeeStateModel) {\r\n    return state.employees;\r\n  }\r\n\r\n  //   get loaded employee info\r\n  @Selector()\r\n  static employeeloaded(state: EmployeeStateModel) {\r\n    return state.employeesLoaded;\r\n  }\r\n\r\n  // get search employee\r\n  @Selector()\r\n  static searchEmployee(state: EmployeeStateModel) {\r\n    return state.searchEmployee;\r\n  }\r\n\r\n  @Action(GetEmployee)\r\n  getEmployees({ getState, setState }: StateContext<EmployeeStateModel>) {\r\n    return this.empoloyeeService.getData().pipe(\r\n      tap((res) => {\r\n        const state = getState(); //here we are geting all data avaliable in state\r\n        setState({\r\n          ...state,\r\n          employees: res,\r\n          employeesLoaded: true,\r\n        }); // here we are adding data in state with existing data using sprade oprater\r\n      })\r\n    );\r\n  }\r\n\r\n  @Action(SearchEmployee)\r\n  searchEmoloyee(\r\n    { getState, setState }: StateContext<EmployeeStateModel>,\r\n    { id }: SearchEmployee\r\n  ) {\r\n    const state = getState();\r\n    const empList = state.employees;\r\n    const index = empList.findIndex((emp) => emp.id === id);\r\n    // console.log(empList[index]);\r\n    setState({\r\n      ...state,\r\n      searchEmployee:empList[index]\r\n    })\r\n  }\r\n}\r\n",
+            "properties": [
+                {
+                    "name": "employees",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Employee[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "employeesLoaded",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "searchEmployee",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Employee | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 168,
+            "methods": []
+        },
+        {
+            "name": "User",
+            "id": "interface-User-9c7e5f1bbbab702cb032307d130876cb68969b0cd4eedef32a0c8cad8081a54e5f8f577ed6ad4539c1b99a1d246cb34031d198c2ea8eba440e64e91b14f01fdc",
+            "file": "src/stories/User.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface User {}\n",
+            "properties": [],
+            "indexSignatures": [],
+            "methods": []
+        }
+    ],
+    "injectables": [
+        {
+            "name": "EmployeeState",
+            "id": "injectable-EmployeeState-9ab98e86a1ce3c79918fc6175fec2c69b35d81b68c815643932f214d7ad48a8d5302e9c8dbf103203dbfc146d1cef8317b66c47005b697e5653fe075e0240ea9",
+            "file": "src/app/store/state/employee.state.ts",
+            "properties": [],
+            "methods": [
+                {
+                    "name": "employeeloaded",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "boolean",
+                    "typeParameters": [],
+                    "line": 36,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "Selector",
+                            "stringifiedArguments": ""
+                        }
+                    ],
+                    "modifierKind": [
+                        167,
+                        124
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getEmployeeList",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "{}",
+                    "typeParameters": [],
+                    "line": 30,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "Selector",
+                            "stringifiedArguments": ""
+                        }
+                    ],
+                    "modifierKind": [
+                        167,
+                        124
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "getEmployees",
+                    "args": [
+                        {
+                            "type": "StateContext<EmployeeStateModel>",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 47,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "Action",
+                            "stringifiedArguments": "GetEmployee"
+                        }
+                    ],
+                    "modifierKind": [
+                        167
+                    ],
+                    "jsdoctags": [
+                        {
+                            "type": "StateContext<EmployeeStateModel>",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "searchEmoloyee",
+                    "args": [
+                        {
+                            "type": "StateContext<EmployeeStateModel>",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "type": "SearchEmployee",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 61,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "Action",
+                            "stringifiedArguments": "SearchEmployee"
+                        }
+                    ],
+                    "modifierKind": [
+                        167
+                    ],
+                    "jsdoctags": [
+                        {
+                            "type": "StateContext<EmployeeStateModel>",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "type": "SearchEmployee",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "searchEmployee",
+                    "args": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "any",
+                    "typeParameters": [],
+                    "line": 42,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "decorators": [
+                        {
+                            "name": "Selector",
+                            "stringifiedArguments": ""
+                        }
+                    ],
+                    "modifierKind": [
+                        167,
+                        124
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "state",
+                            "type": "EmployeeStateModel",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { SelectorContext } from '@angular/compiler';\r\nimport { Injectable } from '@angular/core';\r\nimport { Action, Selector, State, StateContext } from '@ngxs/store';\r\nimport { tap } from 'rxjs';\r\nimport { Employee } from 'src/app/modules/employee-details/employee.model';\r\nimport { empolyeeService } from 'src/app/service/employee.service';\r\nimport { GetEmployee, SearchEmployee } from '../action/employee.action';\r\n\r\nexport interface EmployeeStateModel {\r\n  employees: Employee[];\r\n  employeesLoaded: boolean;\r\n  searchEmployee: Employee | null;\r\n}\r\n\r\n@State<EmployeeStateModel>({\r\n  name: 'employees',\r\n  defaults: {\r\n    employees: [],\r\n    employeesLoaded: false,\r\n    searchEmployee: null,\r\n  },\r\n})\r\n@Injectable()\r\nexport class EmployeeState {\r\n  constructor(private empoloyeeService: empolyeeService) {}\r\n\r\n  // todo --selector has logic to get state data\r\n  // todo -- Get employee list from state\r\n  @Selector()\r\n  static getEmployeeList(state: EmployeeStateModel) {\r\n    return state.employees;\r\n  }\r\n\r\n  //   get loaded employee info\r\n  @Selector()\r\n  static employeeloaded(state: EmployeeStateModel) {\r\n    return state.employeesLoaded;\r\n  }\r\n\r\n  // get search employee\r\n  @Selector()\r\n  static searchEmployee(state: EmployeeStateModel) {\r\n    return state.searchEmployee;\r\n  }\r\n\r\n  @Action(GetEmployee)\r\n  getEmployees({ getState, setState }: StateContext<EmployeeStateModel>) {\r\n    return this.empoloyeeService.getData().pipe(\r\n      tap((res) => {\r\n        const state = getState(); //here we are geting all data avaliable in state\r\n        setState({\r\n          ...state,\r\n          employees: res,\r\n          employeesLoaded: true,\r\n        }); // here we are adding data in state with existing data using sprade oprater\r\n      })\r\n    );\r\n  }\r\n\r\n  @Action(SearchEmployee)\r\n  searchEmoloyee(\r\n    { getState, setState }: StateContext<EmployeeStateModel>,\r\n    { id }: SearchEmployee\r\n  ) {\r\n    const state = getState();\r\n    const empList = state.employees;\r\n    const index = empList.findIndex((emp) => emp.id === id);\r\n    // console.log(empList[index]);\r\n    setState({\r\n      ...state,\r\n      searchEmployee:empList[index]\r\n    })\r\n  }\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "empoloyeeService",
+                        "type": "empolyeeService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 24,
+                "jsdoctags": [
+                    {
+                        "name": "empoloyeeService",
+                        "type": "empolyeeService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        },
+        {
+            "name": "empolyeeService",
+            "id": "injectable-empolyeeService-f70cf64a3ba212640650ab50f87ae67102cba2cb2af1d1efac16ea90a2c1b46937a70c171b05720559ed4755b9d47741588ea4bef3b6a87057d115d093b5f7d1",
+            "file": "src/app/service/employee.service.ts",
+            "properties": [
+                {
+                    "name": "jsonUrl",
+                    "defaultValue": "'https://jsonplaceholder.typicode.com/posts'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                }
+            ],
+            "methods": [
+                {
+                    "name": "getData",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "Observable<Employee[]>",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { HttpClient } from '@angular/common/http';\nimport { Injectable } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { Employee } from '../modules/employee-details/employee.model';\n\n@Injectable({\n  providedIn: 'root',\n})\nexport class empolyeeService {\n  jsonUrl = 'https://jsonplaceholder.typicode.com/posts';\n  constructor(private http: HttpClient) {}\n\n  getData(): Observable<Employee[]> {\n    return this.http.get<Employee[]>(this.jsonUrl);\n  }\n}\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 10,
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "type": "injectable"
+        }
+    ],
+    "guards": [],
+    "interceptors": [],
+    "classes": [
+        {
+            "name": "GetEmployee",
+            "id": "class-GetEmployee-e8891d5f85f905d4c250ec6c5da4a9b1e08df18af6763f202607aeff744530db8e3995568b1750b0ad3b5825651aba209d296ceda55069b0de36153444960f40",
+            "file": "src/app/store/action/employee.action.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Employee } from \"src/app/modules/employee-details/employee.model\";\r\n\r\nexport class GetEmployee{\r\n    static readonly type ='[Employee] Get'\r\n    // TODO here is no argument passed in get so no need to add constructor\r\n}\r\n\r\nexport class SearchEmployee {\r\n    static readonly type ='[Employee] Search';\r\n    constructor(public id:number){}\r\n}\r\n\r\n// export class AddEmployee{\r\n//     static readonly type = '[Employee] Add';\r\n//     constructor(public payload:any){}\r\n// }\r\n\r\n// export class UpdateEmployee{\r\n//     static readonly type ='[Employee] Update'\r\n// }\r\n\r\n// export class DeleteEmployee{\r\n//     static readonly type ='[Employee] Delete'\r\n// }\r\n\r\n\r\n\r\n",
+            "properties": [
+                {
+                    "name": "type",
+                    "defaultValue": "'[Employee] Get'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 4,
+                    "modifierKind": [
+                        124,
+                        146
+                    ]
+                }
+            ],
+            "methods": [],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        },
+        {
+            "name": "SearchEmployee",
+            "id": "class-SearchEmployee-e8891d5f85f905d4c250ec6c5da4a9b1e08df18af6763f202607aeff744530db8e3995568b1750b0ad3b5825651aba209d296ceda55069b0de36153444960f40",
+            "file": "src/app/store/action/employee.action.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "class",
+            "sourceCode": "import { Employee } from \"src/app/modules/employee-details/employee.model\";\r\n\r\nexport class GetEmployee{\r\n    static readonly type ='[Employee] Get'\r\n    // TODO here is no argument passed in get so no need to add constructor\r\n}\r\n\r\nexport class SearchEmployee {\r\n    static readonly type ='[Employee] Search';\r\n    constructor(public id:number){}\r\n}\r\n\r\n// export class AddEmployee{\r\n//     static readonly type = '[Employee] Add';\r\n//     constructor(public payload:any){}\r\n// }\r\n\r\n// export class UpdateEmployee{\r\n//     static readonly type ='[Employee] Update'\r\n// }\r\n\r\n// export class DeleteEmployee{\r\n//     static readonly type ='[Employee] Delete'\r\n// }\r\n\r\n\r\n\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "id",
+                        "type": "number",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 9,
+                "jsdoctags": [
+                    {
+                        "name": "id",
+                        "type": "number",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [
+                {
+                    "name": "id",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "optional": false,
+                    "description": "",
+                    "line": 10,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "type",
+                    "defaultValue": "'[Employee] Search'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9,
+                    "modifierKind": [
+                        124,
+                        146
+                    ]
+                }
+            ],
+            "methods": [],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        }
+    ],
+    "directives": [],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-9bc627ecf11d5fed11ef21ce8683f8c35800bd3b7ad8df7ea3355c6c682282bd1e1e83ce20f713644581593ed859ae18e7f612809d3a39a6a73f241a77495b69",
+            "file": "src/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [
+                "./app.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "hex_colors",
+                    "defaultValue": "[\n    '#FF5733',\n    '#6A5ACD',\n    '#00FF00',\n    '#FFD700',\n    '#8B4513',\n    '#FF1493',\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "title",
+                    "defaultValue": "'innofied'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 19,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "setCSSVariables",
+                    "args": [
+                        {
+                            "name": "colors",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 24,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "colors",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.css'],\n})\nexport class AppComponent implements OnInit {\n  title = 'innofied';\n  hex_colors = [\n    '#FF5733',\n    '#6A5ACD',\n    '#00FF00',\n    '#FFD700',\n    '#8B4513',\n    '#FF1493',\n  ];\n\n  ngOnInit(): void {\n    const color = '';\n    this.setCSSVariables(color);\n  }\n\n  setCSSVariables(colors: any) {\n    const root = document.documentElement;\n    root.style.setProperty(\n      '--form-background-color',\n      colors.formBackgroundColor || this.hex_colors[1]\n    );\n    root.style.setProperty(\n      '--label-color',\n      colors.labelColor || this.hex_colors[2]\n    );\n    root.style.setProperty(\n      '--button-color',\n      colors.buttonColor || this.hex_colors[3]\n    );\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./app.component.css"
+                }
+            ],
+            "stylesData": "",
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<!-- <app-multi-step-form></app-multi-step-form> -->\n\n<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n  <a class=\"navbar-brand\" href=\"#\">Navbar</a>\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNav\" aria-controls=\"navbarNav\"\n    aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <div class=\"collapse navbar-collapse\" id=\"navbarNav\">\n    <ul class=\"navbar-nav\">\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" routerLink=\"/home\" routerLinkActive=\"active\">Home</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" routerLink=\"/home/multiStepForm\" routerLinkActive=\"active\">Multi Step From</a>\n      </li>\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" routerLink=\"/home/ngxColorPicker\" routerLinkActive=\"active\">Color Picker</a>\n      </li>\n      <!-- <li class=\"nav-item\">\n        <a class=\"nav-link\" routerLink=\"/other\" routerLinkActive=\"active\">Other</a>\n      </li> -->\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" routerLink=\"/employeeDetails\" routerLinkActive=\"active\">Employee</a>\n      </li>\n\n    </ul>\n  </div>\n</nav>\n\n<router-outlet></router-outlet>\n"
+        },
+        {
+            "name": "ButtonComponent",
+            "id": "component-ButtonComponent-a53fd738b978780d39fb5fcc9ae4cfe0088e57a1f6ce674862d57dab9192140bd1c05548a9910db0469a431142886e658ff2e761f15781b2ad430e58d64724d0",
+            "file": "src/stories/button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-button",
+            "styleUrls": [
+                "./button.css"
+            ],
+            "styles": [],
+            "template": "<button   type=\"button\"\n   (click)=\"onClick.emit($event)\"\n   [ngClass]=\"classes\"\n   [ngStyle]=\"{ 'background-color': backgroundColor }\"\n >\n   {{ label }}\n </button>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "backgroundColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nWhat background color to use\n",
+                    "description": "<p>What background color to use</p>\n",
+                    "line": 28,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 786,
+                            "end": 799,
+                            "flags": 8421376,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "kind": 330,
+                            "tagName": {
+                                "pos": 787,
+                                "end": 795,
+                                "flags": 8421376,
+                                "modifierFlagsCache": 0,
+                                "transformFlags": 0,
+                                "kind": 79,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "\n\nButton contents\n\n",
+                    "description": "<p>Button contents</p>\n",
+                    "line": 42,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "primary",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nIs this the principal call to action on the page?\n",
+                    "description": "<p>Is this the principal call to action on the page?</p>\n",
+                    "line": 22,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'medium'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nHow large should the button be?\n",
+                    "description": "<p>How large should the button be?</p>\n",
+                    "line": 34,
+                    "type": "\"small\" | \"medium\" | \"large\"",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\n\nOptional click handler\n",
+                    "description": "<p>Optional click handler</p>\n",
+                    "line": 48,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-button',\n  imports: [CommonModule],\n  template: ` <button\n    type=\"button\"\n    (click)=\"onClick.emit($event)\"\n    [ngClass]=\"classes\"\n    [ngStyle]=\"{ 'background-color': backgroundColor }\"\n  >\n    {{ label }}\n  </button>`,\n  styleUrls: ['./button.css'],\n})\nexport default class ButtonComponent {\n  /**\n   * Is this the principal call to action on the page?\n   */\n  @Input()\n  primary = false;\n\n  /**\n   * What background color to use\n   */\n  @Input()\n  backgroundColor?: string;\n\n  /**\n   * How large should the button be?\n   */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /**\n   * Optional click handler\n   */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-button {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-weight: 700;\n  border: 0;\n  border-radius: 3em;\n  cursor: pointer;\n  display: inline-block;\n  line-height: 1;\n}\n.storybook-button--primary {\n  color: white;\n  background-color: #1ea7fd;\n}\n.storybook-button--secondary {\n  color: #333;\n  background-color: transparent;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;\n}\n.storybook-button--small {\n  font-size: 12px;\n  padding: 10px 16px;\n}\n.storybook-button--medium {\n  font-size: 14px;\n  padding: 11px 20px;\n}\n.storybook-button--large {\n  font-size: 16px;\n  padding: 12px 24px;\n}\n",
+                    "styleUrl": "./button.css"
+                }
+            ],
+            "stylesData": "",
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 50
+                    }
+                }
+            }
+        },
+        {
+            "name": "EmployeeDetailsComponent",
+            "id": "component-EmployeeDetailsComponent-5820e8d9a56e2c55592f33153cfcc75d3f0f6d2bd31f26ddd2fd905c574ec59df4108b2a8af729cc4f46a7271876d89189ac9f2f50ac0e89f9937751721d0e5f",
+            "file": "src/app/modules/employee-details/employee-details.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-employee-details",
+            "styleUrls": [
+                "./employee-details.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./employee-details.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "empLoadedSub",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Subscription",
+                    "optional": false,
+                    "description": "",
+                    "line": 26
+                },
+                {
+                    "name": "employee",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Employee[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 18
+                },
+                {
+                    "name": "employee$",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Observable<Employee[]>",
+                    "optional": false,
+                    "description": "",
+                    "line": 22,
+                    "decorators": [
+                        {
+                            "name": "Select",
+                            "stringifiedArguments": "EmployeeState.getEmployeeList"
+                        }
+                    ],
+                    "modifierKind": [
+                        167
+                    ]
+                },
+                {
+                    "name": "employeeloaded$",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Observable<boolean>",
+                    "optional": false,
+                    "description": "",
+                    "line": 23,
+                    "decorators": [
+                        {
+                            "name": "Select",
+                            "stringifiedArguments": "EmployeeState.employeeloaded"
+                        }
+                    ],
+                    "modifierKind": [
+                        167
+                    ]
+                },
+                {
+                    "name": "filteredCards",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Employee[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 20
+                },
+                {
+                    "name": "filteredCards$",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Observable<Employee[]>",
+                    "optional": false,
+                    "description": "",
+                    "line": 24,
+                    "decorators": [
+                        {
+                            "name": "Select",
+                            "stringifiedArguments": "EmployeeState.searchEmployee"
+                        }
+                    ],
+                    "modifierKind": [
+                        167
+                    ]
+                },
+                {
+                    "name": "searchTerm",
+                    "defaultValue": "''",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "optional": false,
+                    "description": "",
+                    "line": 19
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getEmployeeData",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 35,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnDestroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 60,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 28,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "search",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 43,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnDestroy, OnInit } from '@angular/core';\nimport { Select, Store } from '@ngxs/store';\nimport { Observable, Subscription } from 'rxjs';\nimport { empolyeeService } from 'src/app/service/employee.service';\nimport {\n  GetEmployee,\n  SearchEmployee,\n} from 'src/app/store/action/employee.action';\nimport { EmployeeState } from 'src/app/store/state/employee.state';\nimport { Employee } from './employee.model';\n\n@Component({\n  selector: 'app-employee-details',\n  templateUrl: './employee-details.component.html',\n  styleUrls: ['./employee-details.component.css'],\n})\nexport class EmployeeDetailsComponent implements OnInit, OnDestroy {\n  employee: Employee[] = [];\n  searchTerm: any = '';\n  filteredCards: Employee[] = [];\n\n  @Select(EmployeeState.getEmployeeList) employee$!: Observable<Employee[]>;\n  @Select(EmployeeState.employeeloaded) employeeloaded$!: Observable<boolean>;\n  @Select(EmployeeState.searchEmployee) filteredCards$!: Observable<Employee[]>;\n\n  empLoadedSub!: Subscription;\n  constructor(private store: Store) {}\n  ngOnInit(): void {\n    this.getEmployeeData();\n    this.employee$.subscribe((res) => {\n      this.employee = res;\n    });\n  }\n\n  getEmployeeData() {\n    this.empLoadedSub = this.employeeloaded$.subscribe((res) => {\n      if (!res) {\n        this.store.dispatch(new GetEmployee());\n      }\n    });\n  }\n\n  search() {\n    this.filteredCards = this.employee.filter(\n      (card) =>\n        card.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||\n        card.id.toString().includes(this.searchTerm.toLowerCase())\n    );\n    console.log('Search Term:', this.searchTerm);\n    console.log('Filtered Data:');\n    // const id = parseInt(this.searchTerm, 10);\n    // this.store.dispatch(new SearchEmployee(id));\n\n    // this.filteredCards$.subscribe((res:any) => {\n    //   this.filteredCards.push(res);\n    // });\n\n  }\n\n  ngOnDestroy(): void {\n    this.empLoadedSub.unsubscribe;\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./employee-details.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 26,
+                "jsdoctags": [
+                    {
+                        "name": "store",
+                        "type": "Store",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "implements": [
+                "OnInit",
+                "OnDestroy"
+            ],
+            "templateData": "<div class=\"container\">\n  <div class=\"row col-md-6\">\n    <input type=\"text\" [(ngModel)]=\"searchTerm\" (keyup)=\"search()\" placeholder=\"Search by title and Id\" />\n  </div>\n  <div class=\"row\">\n    <div class=\"col-md-4\" *ngFor=\"let card of (searchTerm ? filteredCards : employee)\">\n      <div class=\"card\">\n        <div class=\"card-body\">\n          <h5 class=\"card-title\">{{card.id}}) {{ card.title }}</h5>\n          <p class=\"card-text\">{{ card.body }}</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- let card of employee$ | async -->\n"
+        },
+        {
+            "name": "HeaderComponent",
+            "id": "component-HeaderComponent-3d494fd89671305c6be07de00e019efdf08f2e36c2169e5fb75a5acdb2841da927e3ef3cbd21cc18f478373a784b1fb90e8b63b9df4b3498a75b652bd9c37b38",
+            "file": "src/stories/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-header",
+            "styleUrls": [
+                "./header.css"
+            ],
+            "styles": [],
+            "template": "<header>    <div class=\"storybook-header\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <div *ngIf=\"user\">\n          <span class=\"welcome\">\n            Welcome, <b>{{ user.name }}</b\n            >!\n          </span>\n          <storybook-button\n            *ngIf=\"user\"\n            size=\"small\"\n            (onClick)=\"onLogout.emit($event)\"\n            label=\"Log out\"\n          ></storybook-button>\n        </div>\n        <div *ngIf=\"!user\">\n          <storybook-button\n            *ngIf=\"!user\"\n            size=\"small\"\n            class=\"margin-left\"\n            (onClick)=\"onLogin.emit($event)\"\n            label=\"Log in\"\n          ></storybook-button>\n          <storybook-button\n            *ngIf=\"!user\"\n            primary\n            size=\"small\"\n            primary=\"true\"\n            class=\"margin-left\"\n            (onClick)=\"onCreateAccount.emit($event)\"\n            label=\"Sign up\"\n          ></storybook-button>\n        </div>\n      </div>\n    </div>\n  </header>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 65,
+                    "type": "User | null",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onCreateAccount",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 74,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogin",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 68,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogout",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 71,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\nimport type { User } from './User';\n\n@Component({\n  selector: 'storybook-header',\n  template: `<header>\n    <div class=\"storybook-header\">\n      <div>\n        <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n              fill=\"#FFF\"\n            />\n            <path\n              d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n              fill=\"#555AB9\"\n            />\n            <path\n              d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\"\n              fill=\"#91BAF8\"\n            />\n          </g>\n        </svg>\n        <h1>Acme</h1>\n      </div>\n      <div>\n        <div *ngIf=\"user\">\n          <span class=\"welcome\">\n            Welcome, <b>{{ user.name }}</b\n            >!\n          </span>\n          <storybook-button\n            *ngIf=\"user\"\n            size=\"small\"\n            (onClick)=\"onLogout.emit($event)\"\n            label=\"Log out\"\n          ></storybook-button>\n        </div>\n        <div *ngIf=\"!user\">\n          <storybook-button\n            *ngIf=\"!user\"\n            size=\"small\"\n            class=\"margin-left\"\n            (onClick)=\"onLogin.emit($event)\"\n            label=\"Log in\"\n          ></storybook-button>\n          <storybook-button\n            *ngIf=\"!user\"\n            primary\n            size=\"small\"\n            primary=\"true\"\n            class=\"margin-left\"\n            (onClick)=\"onCreateAccount.emit($event)\"\n            label=\"Sign up\"\n          ></storybook-button>\n        </div>\n      </div>\n    </div>\n  </header>`,\n  styleUrls: ['./header.css'],\n})\nexport default class HeaderComponent {\n  @Input()\n  user: User | null = null;\n\n  @Output()\n  onLogin = new EventEmitter<Event>();\n\n  @Output()\n  onLogout = new EventEmitter<Event>();\n\n  @Output()\n  onCreateAccount = new EventEmitter<Event>();\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-header {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 15px 20px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.storybook-header svg {\n  display: inline-block;\n  vertical-align: top;\n}\n\n.storybook-header h1 {\n  font-weight: 700;\n  font-size: 20px;\n  line-height: 1;\n  margin: 6px 0 6px 10px;\n  display: inline-block;\n  vertical-align: top;\n}\n\n.storybook-header button + button {\n  margin-left: 10px;\n}\n\n.storybook-header .welcome {\n  color: #333;\n  font-size: 14px;\n  margin-right: 10px;\n}\n",
+                    "styleUrl": "./header.css"
+                }
+            ],
+            "stylesData": ""
+        },
+        {
+            "name": "HomeComponent",
+            "id": "component-HomeComponent-a85f7a68667dfc7e736ed4a732e100e511974291763ace4e54638935a88bfe254fdc9bbe3aed1f14b86edc8786bdf2c4092621d6969e866b15cce55702abe1b5",
+            "file": "src/app/modules/home/home.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-home",
+            "styleUrls": [
+                "./home.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./home.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "selectedColor",
+                    "defaultValue": "'#ff0000'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "updateColorPreview",
+                    "args": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "event",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-home',\n  templateUrl: './home.component.html',\n  styleUrls: ['./home.component.css'],\n})\nexport class HomeComponent {\n  selectedColor: string = '#ff0000'; // Default color\n\n  constructor() {}\n\n  updateColorPreview(event: any) {\n    this.selectedColor = event.target.value;\n    console.log('Selected color:', this.selectedColor);\n    // You can perform additional actions here with the selected color\n  }\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./home.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 9
+            },
+            "templateData": "<p>home works!</p>\n<!-- <div>\n  <h1>Color Picker Example</h1>\n  <input type=\"color\" [(ngModel)]=\"selectedColor\" (input)=\"updateColorPreview($event)\" />\n  <div class=\"selected-color\" [style.background]=\"selectedColor\"></div>\n</div> -->\n\n<router-outlet></router-outlet>\n"
+        },
+        {
+            "name": "MultiStepFormComponent",
+            "id": "component-MultiStepFormComponent-f8e9d363268c3948ffadf86d8ac73b6a705a50a7e7912e817afd18d7839bf06cfb39422d6c3423b4b53bb3d9e6a0b6086cd36b55cc318e2612d5b3f7d9f8c8d8",
+            "file": "src/app/modules/multi-step-form/multi-step-form.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-multi-step-form",
+            "styleUrls": [
+                "./multi-step-form.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./multi-step-form.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "searchTaxiForm",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "FormGroup",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                },
+                {
+                    "name": "showAirportFields",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "boolean",
+                    "optional": false,
+                    "description": "",
+                    "line": 12
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 16,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onRadioSelect",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 101,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onSubmit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 95,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { FormBuilder, FormGroup, Validators } from '@angular/forms';\nimport { Router } from '@angular/router';\n\n@Component({\n  selector: 'app-multi-step-form',\n  templateUrl: './multi-step-form.component.html',\n  styleUrls: ['./multi-step-form.component.css'],\n})\nexport class MultiStepFormComponent {\n  searchTaxiForm!: FormGroup;\n  showAirportFields: boolean = true;\n\n  constructor(private formBuilder: FormBuilder, private router:Router) {}\n\n  ngOnInit() {\n    this.searchTaxiForm = this.formBuilder.group({\n      selection: ['Airport Transfer', Validators.required],\n      select_pickupLocation: ['', Validators.required],\n      select_dropLocation: ['', Validators.required],\n      to_station: ['', Validators.required],\n      from_station: ['', Validators.required],\n      from_date: ['', Validators.required],\n      from_time: ['', Validators.required],\n      arriveFrom: ['', Validators.required],\n      flightNo: ['', Validators.required],\n      datetime: ['', Validators.required],\n      arrivalDate: ['', Validators.required],\n      arrivalTime: ['', Validators.required],\n      noOfBaggage: ['0', Validators.required],\n      adult: ['1', Validators.required],\n      children: ['0', Validators.required],\n      infants: ['0', Validators.required],\n    });\n\n    // Load form data from LocalStorage (if available)\n    const formData = JSON.parse(localStorage.getItem('searchTaxiFormData') || '{}');\n    this.searchTaxiForm.patchValue(formData);\n\n    this.searchTaxiForm.get('selection')?.valueChanges.subscribe((value) => {\n      if (value === 'Direct Transfer') {\n        this.showAirportFields = false;\n        this.searchTaxiForm.get('arriveFrom')?.clearValidators();\n        this.searchTaxiForm.get('flightNo')?.clearValidators();\n        this.searchTaxiForm.get('datetime')?.clearValidators();\n        this.searchTaxiForm.get('arrivalDate')?.clearValidators();\n        this.searchTaxiForm.get('arrivalTime')?.clearValidators();\n        this.searchTaxiForm.get('to_station')?.clearValidators();\n        this.searchTaxiForm.get('from_station')?.clearValidators();\n        this.searchTaxiForm.get('select_pickupLocation')?.setValidators([Validators.required]);\n        this.searchTaxiForm.get('select_dropLocation')?.setValidators([Validators.required]);\n      } else {\n        this.showAirportFields = true;\n        this.searchTaxiForm\n          .get('arriveFrom')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('flightNo')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('datetime')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('arrivalDate')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('arrivalTime')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('to_station')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm\n          .get('from_station')\n          ?.setValidators([Validators.required]);\n        this.searchTaxiForm.get('select_pickupLocation')?.clearValidators();\n        this.searchTaxiForm.get('select_dropLocation')?.clearValidators();\n      }\n\n      this.searchTaxiForm.get('arriveFrom')?.updateValueAndValidity();\n      this.searchTaxiForm.get('flightNo')?.updateValueAndValidity();\n      this.searchTaxiForm.get('datetime')?.updateValueAndValidity();\n      this.searchTaxiForm.get('arrivalDate')?.updateValueAndValidity();\n      this.searchTaxiForm.get('arrivalTime')?.updateValueAndValidity();\n      this.searchTaxiForm.get('to_station')?.updateValueAndValidity();\n      this.searchTaxiForm.get('from_station')?.updateValueAndValidity();\n      this.searchTaxiForm\n        .get('select_pickupLocation')\n        ?.updateValueAndValidity();\n      this.searchTaxiForm.get('select_dropLocation')?.updateValueAndValidity();\n    });\n\n    this.searchTaxiForm.updateValueAndValidity();\n  }\n\n  onSubmit() {\n    console.log('Form Values:', this.searchTaxiForm.value);\n    localStorage.setItem('searchTaxiFormData', JSON.stringify(this.searchTaxiForm.value));\n    this.router.navigate(['/home'])\n  }\n\n  onRadioSelect() {\n    if (this.showAirportFields) {\n      this.searchTaxiForm.get('to_station')?.reset();\n      this.searchTaxiForm.get('from_station')?.reset();\n      this.searchTaxiForm.get('from_date')?.reset();\n      this.searchTaxiForm.get('from_time')?.reset();\n      this.searchTaxiForm.get('arriveFrom')?.reset();\n      this.searchTaxiForm.get('flightNo')?.reset();\n      this.searchTaxiForm.get('datetime')?.reset();\n      this.searchTaxiForm.get('arrivalDate')?.reset();\n      this.searchTaxiForm.get('arrivalTime')?.reset();\n      this.searchTaxiForm.get('adult')?.reset();\n      this.searchTaxiForm.get('children')?.reset();\n      this.searchTaxiForm.get('infants')?.reset();\n    } else {\n      this.searchTaxiForm.get('select_pickupLocation')?.reset();\n      this.searchTaxiForm.get('select_dropLocation')?.reset();\n      this.searchTaxiForm.get('adult')?.reset();\n      this.searchTaxiForm.get('children')?.reset();\n      this.searchTaxiForm.get('infants')?.reset();\n    }\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./multi-step-form.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "formBuilder",
+                        "type": "FormBuilder",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    },
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 12,
+                "jsdoctags": [
+                    {
+                        "name": "formBuilder",
+                        "type": "FormBuilder",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "router",
+                        "type": "Router",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "templateData": "<!-- <form [formGroup]=\"searchTaxiForm\" (ngSubmit)=\"onSubmit()\">\n    <label>\n      <input type=\"radio\" formControlName=\"selection\" value=\"Airport Transfer\" (change)=\"onRadioSelect()\"> Airport\n      Transfer\n    </label>\n    <label>\n      <input type=\"radio\" formControlName=\"selection\" value=\"Hotel Transfer\" (change)=\"onRadioSelect()\"> Hotel Transfer\n    </label>\n    <label>\n      <input type=\"radio\" formControlName=\"selection\" value=\"Direct Transfer\" (change)=\"onRadioSelect()\"> Direct Transfer\n    </label>\n  \n    <div *ngIf=\"showAirportFields\">\n      <label for=\"to_station\">To Station:</label>\n      <input type=\"text\" formControlName=\"to_station\" id=\"to_station\">\n  \n      <label for=\"from_station\">From Station:</label>\n      <input type=\"text\" formControlName=\"from_station\" id=\"from_station\">\n  \n      <label for=\"from_date\">From Date:</label>\n      <input type=\"text\" formControlName=\"from_date\" id=\"from_date\">\n  \n      <label for=\"from_time\">From Time:</label>\n      <input type=\"text\" formControlName=\"from_time\" id=\"from_time\">\n  \n      <label for=\"arriveFrom\">Arrive From:</label>\n      <input type=\"text\" formControlName=\"arriveFrom\" id=\"arriveFrom\">\n  \n      <label for=\"flightNo\">Flight No:</label>\n      <input type=\"text\" formControlName=\"flightNo\" id=\"flightNo\">\n  \n      <label for=\"datetime\">Datetime:</label>\n      <input type=\"text\" formControlName=\"datetime\" id=\"datetime\">\n  \n      <label for=\"arrivalDate\">Arrival Date:</label>\n      <input type=\"text\" formControlName=\"arrivalDate\" id=\"arrivalDate\">\n  \n      <label for=\"arrivalTime\">Arrival Time:</label>\n      <input type=\"text\" formControlName=\"arrivalTime\" id=\"arrivalTime\">\n  \n    </div>\n  \n    <div *ngIf=\"!showAirportFields\">\n      <label for=\"select_pickupLocation\">From Loaction:</label>\n      <input type=\"text\" formControlName=\"select_pickupLocation\" id=\"select_pickupLocation\">\n  \n      <label for=\"select_dropLocation\">To drop</label>\n      <input type=\"text\" formControlName=\"select_dropLocation\" id=\"select_dropLocation\">\n  \n  \n      <label for=\"from_date\">From Date:</label>\n      <input type=\"text\" formControlName=\"from_date\" id=\"from_date\">\n  \n      <label for=\"from_time\">From Time:</label>\n      <input type=\"text\" formControlName=\"from_time\" id=\"from_time\">\n  \n    </div>\n  \n    <div>\n          <label for=\"noOfBaggage\">Number of Baggage:</label>\n      <input type=\"text\" formControlName=\"noOfBaggage\" id=\"noOfBaggage\">\n  \n      <label for=\"adult\">Adult:</label>\n      <input type=\"text\" formControlName=\"adult\" id=\"adult\">\n  \n      <label for=\"children\">Children:</label>\n      <input type=\"text\" formControlName=\"children\" id=\"children\">\n  \n      <label for=\"infants\">Infants:</label>\n      <input type=\"text\" formControlName=\"infants\" id=\"infants\">\n  \n    </div>\n  \n    <button type=\"submit\" [disabled]=\"!searchTaxiForm.valid\">Submit</button>\n  </form>\n   -->\n\n   <!-- your-component.component.html -->\n<form [formGroup]=\"searchTaxiForm\" (ngSubmit)=\"onSubmit()\" class=\"mt-3\">\n  <label class=\"d-block\">Select Transfer Type:</label>\n  <div class=\"form-group\">\n    <div class=\"form-check form-check-inline\" *ngFor=\"let transferType of ['Airport Transfer', 'Hotel Transfer', 'Direct Transfer']\">\n      <input class=\"form-check-input\" type=\"radio\" formControlName=\"selection\" [value]=\"transferType\" (change)=\"onRadioSelect()\">\n      <label class=\"form-check-label\">{{ transferType }}</label>\n    </div>\n  </div>\n  \n  <div *ngIf=\"showAirportFields\" class=\"form-row\">\n    <!-- Show these fields when Airport Transfer is selected -->\n    <div class=\"form-group col-md-4\">\n      <label for=\"to_station\">To Station:</label>\n      <input type=\"text\" formControlName=\"to_station\" class=\"form-control\" id=\"to_station\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"from_station\">From Station:</label>\n      <input type=\"text\" formControlName=\"from_station\" class=\"form-control\" id=\"from_station\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"from_date\">From Date:</label>\n      <input type=\"text\" formControlName=\"from_date\" class=\"form-control\" id=\"from_date\">\n    </div>\n    <!-- ... (similarly, add other fields) ... -->\n  </div>\n  \n  <div *ngIf=\"!showAirportFields\" class=\"form-row\">\n    <!-- Show these fields when Direct Transfer is selected -->\n    <div class=\"form-group col-md-4\">\n      <label for=\"select_pickupLocation\">From Location:</label>\n      <input type=\"text\" formControlName=\"select_pickupLocation\" class=\"form-control\" id=\"select_pickupLocation\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"select_dropLocation\">To Drop:</label>\n      <input type=\"text\" formControlName=\"select_dropLocation\" class=\"form-control\" id=\"select_dropLocation\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"from_date\">From Date:</label>\n      <input type=\"text\" formControlName=\"from_date\" class=\"form-control\" id=\"from_date\">\n    </div>\n    <!-- ... (similarly, add other fields) ... -->\n  </div>\n  \n  <div class=\"form-row\">\n    <div class=\"form-group col-md-4\">\n      <label for=\"noOfBaggage\">Number of Baggage:</label>\n      <input type=\"text\" formControlName=\"noOfBaggage\" class=\"form-control\" id=\"noOfBaggage\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"adult\">Adult:</label>\n      <input type=\"text\" formControlName=\"adult\" class=\"form-control\" id=\"adult\">\n    </div>\n    <div class=\"form-group col-md-4\">\n      <label for=\"children\">Children:</label>\n      <input type=\"text\" formControlName=\"children\" class=\"form-control\" id=\"children\">\n    </div>\n    <!-- ... (similarly, add other fields) ... -->\n  </div>\n  \n  <div class=\"form-group\">\n    <button type=\"submit\" [disabled]=\"!searchTaxiForm.valid\" class=\"btn btn-warning\">Submit</button>\n  </div>\n</form>\n"
+        },
+        {
+            "name": "NgxColorPickerComponent",
+            "id": "component-NgxColorPickerComponent-65209f63a281d25ebe5adb4d5b4a0b42f8568acc1f840256affc1bd88c877742e47125859e9999ac9436db0950a6b0aea5ebcf7742f60192d4554ed77cdb1a9d",
+            "file": "src/app/modules/ngx-color-picker/ngx-color-picker.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-ngx-color-picker",
+            "styleUrls": [
+                "./ngx-color-picker.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./ngx-color-picker.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "color",
+                    "defaultValue": "'#ffffff'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 9
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 10,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\n\n@Component({\n  selector: 'app-ngx-color-picker',\n  templateUrl: './ngx-color-picker.component.html',\n  styleUrls: ['./ngx-color-picker.component.css'],\n})\nexport class NgxColorPickerComponent implements OnInit {\n  color: string = '#ffffff';\n  ngOnInit(): void {}\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./ngx-color-picker.component.css"
+                }
+            ],
+            "stylesData": "",
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "<h4>Color picker</h4>\n<!-- <input [(colorPicker)]=\"color\" [style.background]=\"color\"/> -->\n\n<input [(colorPicker)]=\"color\" [style.background]=\"color\"/>"
+        },
+        {
+            "name": "OtherComponent",
+            "id": "component-OtherComponent-b64d4b0ce689994a6e581c08751c8b96813fb876ebbec29560e03c5fa8fcdf890c5be774ca57c6e0e965b576b79c3c17c357402d0986313d4996b4e1f9085488",
+            "file": "src/app/modules/other/other.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-other",
+            "styleUrls": [
+                "./other.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./other.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-other',\n  templateUrl: './other.component.html',\n  styleUrls: ['./other.component.css']\n})\nexport class OtherComponent {\n\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "",
+                    "styleUrl": "./other.component.css"
+                }
+            ],
+            "stylesData": "",
+            "templateData": "<p>other works!</p>\n"
+        },
+        {
+            "name": "PageComponent",
+            "id": "component-PageComponent-badb6d8cee577661da79ba82ad8f599604afd40fa34e36c7b88d71d77a4fbc7184228cba2f0d73e255d0b7bc51c4c7a8e7b0128b3624aeb0255abab9030fa59a",
+            "file": "src/stories/page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-page",
+            "styleUrls": [
+                "./page.css"
+            ],
+            "styles": [],
+            "template": "<article>    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"doLogout()\"\n      (onLogin)=\"doLogin()\"\n      (onCreateAccount)=\"doCreateAccount()\"\n    ></storybook-header>\n    <section class=\"storybook-page\">\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Storybook tutorials\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "User | null",
+                    "optional": false,
+                    "description": "",
+                    "line": 64
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "doCreateAccount",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 74,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogin",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 70,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogout",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 66,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": false,
+            "imports": [],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport type { User } from './User';\n\n@Component({\n  selector: 'storybook-page',\n  template: `<article>\n    <storybook-header\n      [user]=\"user\"\n      (onLogout)=\"doLogout()\"\n      (onLogin)=\"doLogin()\"\n      (onCreateAccount)=\"doCreateAccount()\"\n    ></storybook-header>\n    <section class=\"storybook-page\">\n      <h2>Pages in Storybook</h2>\n      <p>\n        We recommend building UIs with a\n        <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n          <strong>component-driven</strong>\n        </a>\n        process starting with atomic components and ending with pages.\n      </p>\n      <p>\n        Render pages with mock data. This makes it easy to build and review page states without\n        needing to navigate to them in your app. Here are some handy patterns for managing page data\n        in Storybook:\n      </p>\n      <ul>\n        <li>\n          Use a higher-level connected component. Storybook helps you compose such data from the\n          \"args\" of child component stories\n        </li>\n        <li>\n          Assemble data in the page component from your services. You can mock these services out\n          using Storybook.\n        </li>\n      </ul>\n      <p>\n        Get a guided tutorial on component-driven development at\n        <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n          Storybook tutorials\n        </a>\n        . Read more in the\n        <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n        .\n      </p>\n      <div class=\"tip-wrapper\">\n        <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n        <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n          <g fill=\"none\" fillRule=\"evenodd\">\n            <path\n              d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n              id=\"a\"\n              fill=\"#999\"\n            />\n          </g>\n        </svg>\n        Viewports addon in the toolbar\n      </div>\n    </section>\n  </article>`,\n  styleUrls: ['./page.css'],\n})\nexport default class PageComponent {\n  user: User | null = null;\n\n  doLogout() {\n    this.user = null;\n  }\n\n  doLogin() {\n    this.user = { name: 'Jane Doe' };\n  }\n\n  doCreateAccount() {\n    this.user = { name: 'Jane Doe' };\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-page {\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  line-height: 24px;\n  padding: 48px 20px;\n  margin: 0 auto;\n  max-width: 600px;\n  color: #333;\n}\n\n.storybook-page h2 {\n  font-weight: 700;\n  font-size: 32px;\n  line-height: 1;\n  margin: 0 0 4px;\n  display: inline-block;\n  vertical-align: top;\n}\n\n.storybook-page p {\n  margin: 1em 0;\n}\n\n.storybook-page a {\n  text-decoration: none;\n  color: #1ea7fd;\n}\n\n.storybook-page ul {\n  padding-left: 30px;\n  margin: 1em 0;\n}\n\n.storybook-page li {\n  margin-bottom: 8px;\n}\n\n.storybook-page .tip {\n  display: inline-block;\n  border-radius: 1em;\n  font-size: 11px;\n  line-height: 12px;\n  font-weight: 700;\n  background: #e7fdd8;\n  color: #66bf3c;\n  padding: 4px 12px;\n  margin-right: 10px;\n  vertical-align: top;\n}\n\n.storybook-page .tip-wrapper {\n  font-size: 13px;\n  line-height: 20px;\n  margin-top: 40px;\n  margin-bottom: 40px;\n}\n\n.storybook-page .tip-wrapper svg {\n  display: inline-block;\n  height: 12px;\n  width: 12px;\n  margin-right: 4px;\n  vertical-align: top;\n  margin-top: 3px;\n}\n\n.storybook-page .tip-wrapper svg path {\n  fill: #1ea7fd;\n}\n",
+                    "styleUrl": "./page.css"
+                }
+            ],
+            "stylesData": ""
+        }
+    ],
+    "modules": [
+        {
+            "name": "AppModule",
+            "id": "module-AppModule-8ab1883051a1b86363d0bca639287092aba8eb5c602026f89731b21ba9228e54d67da7ed8e04fafa87ce7596ec5b40832f2346278829e4bb1d93d9178e56f085",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/app.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { HomeComponent } from './modules/home/home.component';\n\n// ngxs\nimport { NgxsModule } from '@ngxs/store';\nimport { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';\nimport { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';\nimport { HttpClientModule } from '@angular/common/http';\nimport { EmployeeDetailsComponent } from './modules/employee-details/employee-details.component';\nimport { EmployeeState } from './store/state/employee.state';\n\n@NgModule({\n  declarations: [AppComponent, HomeComponent],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    HttpClientModule,\n    // MultiStepFormModule,\n    // HomeModule,\n    // OtherModule,\n    NgxsModule.forRoot([EmployeeState]),\n    NgxsLoggerPluginModule.forRoot(),\n    NgxsReduxDevtoolsPluginModule.forRoot(),\n  ],\n  providers: [],\n  bootstrap: [AppComponent],\n})\nexport class AppModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        },
+                        {
+                            "name": "HomeComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "AppRoutingModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": [
+                        {
+                            "name": "AppComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "AppRoutingModule",
+            "id": "module-AppRoutingModule-053c230f6c8b8f07970f0d52456bb3dbfd3c2354e86e7ad48a078cfcd575966fbaf6489fefbeae275a252a2c389d9fc0710c51b4f174dd59413e0468668a4c24",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/app-routing.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\n\nconst routes: Routes = [\n  { path: '', redirectTo: '/home', pathMatch: 'full' },\n  {\n    path: 'home',\n    loadChildren: () =>\n      \"import('./modules/home/home.module').then((m) => m.HomeModule)\",\n  },\n  {\n    path: 'employeeDetails',\n    loadChildren: () =>\n      \"import('./modules/employee-details/employee-details.module').then((m) => m.EmployeeDetailsModule)\",\n  },\n\n\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule],\n})\nexport class AppRoutingModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "EmployeeDetailsModule",
+            "id": "module-EmployeeDetailsModule-bc0c2808078d309c51e0c60c2d8581998d4591b85d3817eb64daa1f8c2707073c18f841ef40dbc857540ea1705915dc8573d5469fa7d07c60a4b3da72d2a4f3b",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/modules/employee-details/employee-details.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { RouterModule, Routes } from '@angular/router';\r\nimport { EmployeeDetailsComponent } from './employee-details.component';\r\nimport { FormsModule } from '@angular/forms';\r\n// ngxs\r\nimport { NgxsModule } from '@ngxs/store';\r\nimport { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';\r\nimport { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';\r\nimport { EmployeeState } from 'src/app/store/state/employee.state';\r\n\r\n\r\nconst routes: Routes = [{ path: '', component: EmployeeDetailsComponent }];\r\n\r\n@NgModule({\r\n  declarations: [EmployeeDetailsComponent],\r\n  imports: [\r\n    CommonModule,\r\n    RouterModule.forChild(routes),\r\n    FormsModule,\r\n    // NgxsModule.forRoot([EmployeeState]),\r\n    // NgxsLoggerPluginModule.forRoot(),\r\n    // NgxsReduxDevtoolsPluginModule.forRoot(),\r\n  ],\r\n})\r\nexport class EmployeeDetailsModule {\r\n  constructor() {}\r\n}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "EmployeeDetailsComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "HomeModule",
+            "id": "module-HomeModule-2914906648d11909b6fd8fcf49d9e48987814523e1dcc9242874d650e2a054a8fa52362c337a3efb04d76d0989c3a208d6a6d18ec490885b97f655383873dee1",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/modules/home/home.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { HomeComponent } from './home.component';\nimport { RouterModule, Routes } from '@angular/router';\nimport { MultiStepFormModule } from './../multi-step-form/multi-step-form.module';\nimport { OtherModule } from './../other/other.module';\n\nconst routes: Routes = [\n  {\n    path: '',\n    component: HomeComponent,\n    children: [\n      {\n        path: 'other',\n        loadChildren: () =>\n          \"import('./../other/other.module').then((m) => m.OtherModule)\",\n      },\n      {\n        path: 'multiStepForm',\n        loadChildren: () =>\n          \"import('./../multi-step-form/multi-step-form.module').then(\\\n            (m) => m.MultiStepFormModule\\\n          )\",\n      },\n      {\n        path: 'ngxColorPicker',\n        loadChildren: () =>\n          \"import('./../ngx-color-picker/ngx-color-picker.module').then(\\\n            (m) => m.NgxColorPickerModule\\\n          )\",\n      },\n    \n    ],\n  },\n];\n@NgModule({\n  declarations: [],\n  imports: [\n    CommonModule,\n    OtherModule,\n    MultiStepFormModule,\n    RouterModule.forChild(routes),\n  ],\n})\nexport class HomeModule {\n  constructor() {\n    console.log('HOME COMPONENT IS INITIALIZE');\n  }\n}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": [
+                        {
+                            "name": "MultiStepFormModule"
+                        },
+                        {
+                            "name": "OtherModule"
+                        }
+                    ]
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "MultiStepFormModule",
+            "id": "module-MultiStepFormModule-881d6df85b1e846d9efa772042d257f408a8fff4caeda47f686765d8dc99fef8723236d55463d42192882f87645055b02d94d0fafa8d67fe4eae7962c5769949",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/modules/multi-step-form/multi-step-form.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterModule, Routes } from '@angular/router';\nimport { MultiStepFormComponent } from './multi-step-form.component';\nimport { ReactiveFormsModule } from '@angular/forms';\n\nconst routes: Routes = [{ path: '', component: MultiStepFormComponent }];\n\n@NgModule({\n  declarations: [MultiStepFormComponent],\n  imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes)],\n})\nexport class MultiStepFormModule {\n  constructor(){\n    console.log('MULTI DTEP FORM COMPONENT IS INITIALIZE'); \n  }\n}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "MultiStepFormComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "NgxColorPickerModule",
+            "id": "module-NgxColorPickerModule-3072c868ef1b194d351e31d2fc20f28b9ba35c01d3991c3ee08dda7826fb55786692303f26c86f7c4ec6ea975a4f9d9a3ad34afefa7af26fe7e5e52a51eb3f84",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/modules/ngx-color-picker/ngx-color-picker.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\r\nimport { CommonModule } from '@angular/common';\r\nimport { RouterModule, Routes } from '@angular/router';\r\nimport { ReactiveFormsModule } from '@angular/forms';\r\nimport { NgxColorPickerComponent } from './ngx-color-picker.component';\r\nimport { ColorPickerModule } from 'ngx-color-picker';\r\n\r\nconst routes: Routes = [{ path: '', component: NgxColorPickerComponent }];\r\n\r\n@NgModule({\r\n  declarations: [NgxColorPickerComponent],\r\n  imports: [\r\n    ReactiveFormsModule,\r\n    ColorPickerModule,\r\n    CommonModule,\r\n    RouterModule.forChild(routes),\r\n  ],\r\n})\r\nexport class NgxColorPickerModule {\r\n  constructor() {}\r\n}\r\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "NgxColorPickerComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "OtherModule",
+            "id": "module-OtherModule-00f80dbfe357bdf558d2748beda5352853c9c4b66ab5858a46b4dfa3c688872ec3254e129c8ef850ef094eccabb5845107110915ae0db698a6e50bb4cfdca6bd",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/app/modules/other/other.module.ts",
+            "methods": [],
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterModule, Routes } from '@angular/router';\nimport { ReactiveFormsModule } from '@angular/forms';\nimport { OtherComponent } from './other.component';\n\nconst routes: Routes = [{ path: '', component: OtherComponent }];\n\n@NgModule({\n  declarations: [OtherComponent],\n  imports: [ReactiveFormsModule, CommonModule, RouterModule.forChild(routes)],\n})\nexport class OtherModule {\n  constructor(){\n    console.log('OTHER COMPONENT IS INITIALIZE'); \n  }\n}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": [
+                        {
+                            "name": "OtherComponent"
+                        }
+                    ]
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "Large",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    user: {\n      name: 'Jane Doe',\n    },\n  },\n}"
+            },
+            {
+                "name": "LoggedIn",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n  play: async ({ canvasElement }) => {\n    const canvas = within(canvasElement);\n    const loginButton = await canvas.getByRole('button', {\n      name: /Log in/i,\n    });\n    await userEvent.click(loginButton);\n  },\n}"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{}"
+            },
+            {
+                "name": "LoggedOut",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Button>",
+                "defaultValue": "{\n  title: 'Example/Button',\n  component: Button,\n  tags: ['autodocs'],\n  render: (args: Button) => ({\n    props: {\n      backgroundColor: null,\n      ...args,\n    },\n  }),\n  argTypes: {\n    backgroundColor: {\n      control: 'color',\n    },\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Header>",
+                "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<Page>",
+                "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
+            },
+            {
+                "name": "preview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": ".storybook/preview.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Preview",
+                "defaultValue": "{\n  parameters: {\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/,\n      },\n    },\n  },\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Secondary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    label: 'Button',\n  },\n}"
+            },
+            {
+                "name": "Small",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+            }
+        ],
+        "functions": [],
+        "typealiases": [
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Button>",
+                "file": "src/stories/Button.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 180
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Header>",
+                "file": "src/stories/Header.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 180
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<Page>",
+                "file": "src/stories/Page.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 180
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "src/stories/Button.stories.ts": [
+                {
+                    "name": "Large",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'large',\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Button>",
+                    "defaultValue": "{\n  title: 'Example/Button',\n  component: Button,\n  tags: ['autodocs'],\n  render: (args: Button) => ({\n    props: {\n      backgroundColor: null,\n      ...args,\n    },\n  }),\n  argTypes: {\n    backgroundColor: {\n      control: 'color',\n    },\n  },\n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    primary: true,\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Secondary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    label: 'Button',\n  },\n}"
+                },
+                {
+                    "name": "Small",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    size: 'small',\n    label: 'Button',\n  },\n}"
+                }
+            ],
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  args: {\n    user: {\n      name: 'Jane Doe',\n    },\n  },\n}"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Header>",
+                    "defaultValue": "{\n  title: 'Example/Header',\n  component: Header,\n  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/angular/writing-docs/autodocs\n  tags: ['autodocs'],\n  render: (args) => ({ props: args }),\n  decorators: [\n    moduleMetadata({\n      declarations: [Button],\n      imports: [CommonModule],\n    }),\n  ],\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n}"
+                }
+            ],
+            "src/stories/Page.stories.ts": [
+                {
+                    "name": "LoggedIn",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n  play: async ({ canvasElement }) => {\n    const canvas = within(canvasElement);\n    const loginButton = await canvas.getByRole('button', {\n      name: /Log in/i,\n    });\n    await userEvent.click(loginButton);\n  },\n}"
+                },
+                {
+                    "name": "LoggedOut",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: (args: Page) => ({\n    props: args,\n  }),\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<Page>",
+                    "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/angular/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
+                }
+            ],
+            ".storybook/preview.ts": [
+                {
+                    "name": "preview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": ".storybook/preview.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Preview",
+                    "defaultValue": "{\n  parameters: {\n    actions: { argTypesRegex: \"^on[A-Z].*\" },\n    controls: {\n      matchers: {\n        color: /(background|color)$/i,\n        date: /Date$/,\n      },\n    },\n  },\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "src/stories/Button.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Button>",
+                    "file": "src/stories/Button.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 180
+                }
+            ],
+            "src/stories/Header.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Header>",
+                    "file": "src/stories/Header.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 180
+                }
+            ],
+            "src/stories/Page.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<Page>",
+                    "file": "src/stories/Page.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 180
+                }
+            ]
+        }
+    },
+    "routes": {
+        "name": "<root>",
+        "kind": "module",
+        "className": "AppModule",
+        "children": [
+            {
+                "name": "routes",
+                "filename": "src/app/app-routing.module.ts",
+                "module": "AppRoutingModule",
+                "children": [
+                    {
+                        "path": "",
+                        "redirectTo": "/home",
+                        "pathMatch": "full"
+                    },
+                    {
+                        "path": "home",
+                        "loadChildren": "./modules/home/home.module#HomeModule",
+                        "children": [
+                            {
+                                "kind": "module",
+                                "children": [
+                                    {
+                                        "name": "routes",
+                                        "filename": "src/app/modules/multi-step-form/multi-step-form.module.ts",
+                                        "module": "MultiStepFormModule",
+                                        "children": [
+                                            {
+                                                "path": "",
+                                                "component": "MultiStepFormComponent"
+                                            }
+                                        ],
+                                        "kind": "module"
+                                    },
+                                    {
+                                        "name": "routes",
+                                        "filename": "src/app/modules/other/other.module.ts",
+                                        "module": "OtherModule",
+                                        "children": [
+                                            {
+                                                "path": "",
+                                                "component": "OtherComponent"
+                                            }
+                                        ],
+                                        "kind": "module"
+                                    }
+                                ],
+                                "module": "HomeModule"
+                            }
+                        ]
+                    },
+                    {
+                        "path": "employeeDetails",
+                        "loadChildren": "./modules/employee-details/employee-details.module#EmployeeDetailsModule",
+                        "children": [
+                            {
+                                "kind": "module",
+                                "children": [
+                                    {
+                                        "name": "routes",
+                                        "filename": "src/app/modules/employee-details/employee-details.module.ts",
+                                        "module": "EmployeeDetailsModule",
+                                        "children": [
+                                            {
+                                                "path": "",
+                                                "component": "EmployeeDetailsComponent"
+                                            }
+                                        ],
+                                        "kind": "module"
+                                    }
+                                ],
+                                "module": "EmployeeDetailsModule"
+                            }
+                        ]
+                    }
+                ],
+                "kind": "module"
+            }
+        ]
+    },
+    "coverage": {
+        "count": 2,
+        "status": "low",
+        "files": [
+            {
+                "filePath": ".storybook/preview.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/employee-details/employee-details.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "EmployeeDetailsComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/13",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/employee-details/employee.model.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "Employee",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/home/home.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HomeComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/multi-step-form/multi-step-form.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "MultiStepFormComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/ngx-color-picker/ngx-color-picker.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "NgxColorPickerComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/modules/other/other.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "OtherComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/service/employee.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "empolyeeService",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/store/action/employee.action.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "GetEmployee",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/store/action/employee.action.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "SearchEmployee",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/store/state/employee.state.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "EmployeeState",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/store/state/employee.state.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "EmployeeStateModel",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Large",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Secondary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Button.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Small",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Header.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedIn",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LoggedOut",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/Page.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/User.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "User",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ButtonComponent",
+                "coveragePercent": 83,
+                "coverageCount": "5/6",
+                "status": "very-good"
+            },
+            {
+                "filePath": "src/stories/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            }
+        ]
+    }
+}
